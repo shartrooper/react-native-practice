@@ -36,8 +36,22 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
 
 function RootNavigator() {
   return (
-    <Stack.Navigator  initialRouteName='Root'>
-      <Stack.Screen name="Root" component={LandingPage} options={{ title: 'Landing Page' }} />
+    <Stack.Navigator initialRouteName="Root">
+      <Stack.Screen
+        name="Root"
+        component={LandingPage}
+        options={{
+          title: 'Landing Page',
+          headerTitleAlign: 'center',
+          headerStyle: {
+            backgroundColor: '#f4511e',
+          },
+          headerTintColor: '#fff',
+          headerTitleStyle: {
+            fontWeight: 'bold',
+          },
+        }}
+      />
       <Stack.Screen name="Tabs" component={BottomTabNavigator} options={{ headerShown: false }} />
       <Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: 'Oops!' }} />
       <Stack.Group screenOptions={{ presentation: 'modal' }}>
