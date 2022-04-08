@@ -28,6 +28,12 @@ export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeNa
   );
 }
 
+export enum Navigators {
+  Root = 'Root',
+  Tabs = 'Tabs',
+  Modal = 'Modal',
+  NotFound = 'NotFound',
+}
 /**
  * A root stack navigator is often used for displaying modals on top of all other content.
  * https://reactnavigation.org/docs/modal

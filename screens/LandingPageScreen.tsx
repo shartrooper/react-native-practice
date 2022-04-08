@@ -1,13 +1,15 @@
 import { StyleSheet } from 'react-native';
-import { Button, Text, TextInput, useThemeColor, View } from '../components/Themed';
+import { Button, Text, TextInput, View } from '../components/Themed';
 import { RootStackScreenProps } from '../types';
+import { Navigators } from '../navigation';
 
 const Separator = () => <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />;
 
 export default function LandingPage({ navigation }: RootStackScreenProps<'Root'>) {
   const toTabs = () => {
-    navigation.navigate('Tabs');
+    navigation.navigate(Navigators.Tabs);
   };
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>App's Landing Page</Text>
