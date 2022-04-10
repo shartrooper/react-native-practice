@@ -12,6 +12,7 @@ import { ColorSchemeName, Pressable } from 'react-native';
 
 import Colors from '../constants/Colors';
 import useColorScheme from '../hooks/useColorScheme';
+import { AuthContext } from '../providers/AuthProvider';
 import LandingPage from '../screens/LandingPageScreen';
 import ModalScreen from '../screens/ModalScreen';
 import NotFoundScreen from '../screens/NotFoundScreen';
@@ -41,24 +42,28 @@ export enum Navigators {
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 function RootNavigator() {
+  const { payload } = React.useContext(AuthContext);
   return (
     <Stack.Navigator initialRouteName="Root">
-      <Stack.Screen
-        name="Root"
-        component={LandingPage}
-        options={{
-          title: 'Landing Page',
-          headerTitleAlign: 'center',
-          headerStyle: {
-            backgroundColor: '#f4511e',
-          },
-          headerTintColor: '#fff',
-          headerTitleStyle: {
-            fontWeight: 'bold',
-          },
-        }}
-      />
-      <Stack.Screen name="Tabs" component={BottomTabNavigator} options={{ headerShown: false }} />
+      {!payload.userToken ? (
+        <Stack.Screen
+          name="Root"
+          component={LandingPage}
+          options={{
+            title: 'Landing Page',
+            headerTitleAlign: 'center',
+            headerStyle: {
+              backgroundColor: '#f4511e',
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+              fontWeight: 'bold',
+            },
+          }}
+        />
+      ) : (
+        <Stack.Screen name="Tabs" component={BottomTabNavigator} options={{ headerShown: false }} />
+      )}
       <Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: 'Oops!' }} />
       <Stack.Group screenOptions={{ presentation: 'modal' }}>
         <Stack.Screen name="Modal" component={ModalScreen} />
@@ -86,8 +91,8 @@ function BottomTabNavigator() {
         name="TabOne"
         component={TabOneScreen}
         options={({ navigation }: RootTabScreenProps<'TabOne'>) => ({
-          title: 'Tab One',
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+          title: 'HOME',
+          tabBarIcon: ({ color }) => <TabBarIcon name="home" color={color} />,
           headerRight: () => (
             <Pressable
               onPress={() => navigation.navigate('Modal')}
@@ -104,8 +109,8 @@ function BottomTabNavigator() {
         name="TabTwo"
         component={TabTwoScreen}
         options={{
-          title: 'Tab Two',
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+          title: 'AGENDA',
+          tabBarIcon: ({ color }) => <TabBarIcon name="book" color={color} />,
         }}
       />
     </BottomTab.Navigator>

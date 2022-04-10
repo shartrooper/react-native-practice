@@ -3,9 +3,13 @@ import { StyleSheet, TouchableOpacity } from 'react-native';
 
 import Colors from '../constants/Colors';
 import { MonoText } from './StyledText';
-import { Text, View } from './Themed';
+import { Text, View, Button } from './Themed';
 
-export default function EditScreenInfo({ path }: { path: string }) {
+export default function EditScreenInfo({
+  path,
+}: {
+  path: string;
+}) {
   return (
     <View>
       <View style={styles.getStartedContainer}>

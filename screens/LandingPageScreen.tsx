@@ -1,24 +1,38 @@
+import { useContext, useState } from 'react';
 import { StyleSheet } from 'react-native';
 import { Button, Text, TextInput, View } from '../components/Themed';
+import { AuthContext } from '../providers/AuthProvider';
 import { RootStackScreenProps } from '../types';
-import { Navigators } from '../navigation';
 
 const Separator = () => <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />;
 
 export default function LandingPage({ navigation }: RootStackScreenProps<'Root'>) {
-  const toTabs = () => {
-    navigation.navigate(Navigators.Tabs);
-  };
-
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const { signIn } = useContext(AuthContext);
   return (
     <View style={styles.container}>
       <Text style={styles.title}>App's Landing Page</Text>
       <Separator />
       <Text style={styles.textBody}>Please, login to access the Tab section</Text>
       <Separator />
-      <TextInput style={styles.input} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" placeholder="Name..." />
-      <TextInput style={styles.input} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" placeholder="Password..." />
-      <Button title="Press me" onPress={toTabs} />
+      <TextInput
+        value={username}
+        onChangeText={setUsername}
+        style={styles.input}
+        lightColor="#eee"
+        darkColor="rgba(255,255,255,0.1)"
+        placeholder="Name..."
+      />
+      <TextInput
+        value={password}
+        onChangeText={setPassword}
+        style={styles.input}
+        lightColor="#eee"
+        darkColor="rgba(255,255,255,0.1)"
+        placeholder="Password..."
+      />
+      <Button title="Sign In" onPress={() => signIn({ username, password })} />
     </View>
   );
 }
