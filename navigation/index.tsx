@@ -14,6 +14,7 @@ import Colors from '../constants/Colors';
 import useColorScheme from '../hooks/useColorScheme';
 import { AuthContext } from '../providers/AuthProvider';
 import LandingPage from '../screens/LandingPageScreen';
+import LoadingScreen from '../screens/LoadingScreen';
 import ModalScreen from '../screens/ModalScreen';
 import NotFoundScreen from '../screens/NotFoundScreen';
 import TabOneScreen from '../screens/TabOneScreen';
@@ -43,27 +44,38 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
 
 function RootNavigator() {
   const { payload } = React.useContext(AuthContext);
+
+  const setSharedScreens = () => {
+    switch (payload.isLoading) {
+      case true:
+        return (<Stack.Screen name="Loading" component={LoadingScreen} />)
+      default:
+        return !payload.userToken ? (
+          <Stack.Screen
+            name="Root"
+            component={LandingPage}
+            options={{
+              title: 'Landing Page',
+              headerTitleAlign: 'center',
+              headerStyle: {
+                backgroundColor: '#f4511e',
+              },
+              headerTintColor: '#fff',
+              headerTitleStyle: {
+                fontWeight: 'bold',
+              },
+            }}
+          />
+        ) : (
+          <Stack.Screen name="Tabs" component={BottomTabNavigator} options={{ headerShown: false }} />
+        )
+    }
+  }
+
+
   return (
     <Stack.Navigator initialRouteName="Root">
-      {!payload.userToken ? (
-        <Stack.Screen
-          name="Root"
-          component={LandingPage}
-          options={{
-            title: 'Landing Page',
-            headerTitleAlign: 'center',
-            headerStyle: {
-              backgroundColor: '#f4511e',
-            },
-            headerTintColor: '#fff',
-            headerTitleStyle: {
-              fontWeight: 'bold',
-            },
-          }}
-        />
-      ) : (
-        <Stack.Screen name="Tabs" component={BottomTabNavigator} options={{ headerShown: false }} />
-      )}
+      {setSharedScreens()}
       <Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: 'Oops!' }} />
       <Stack.Group screenOptions={{ presentation: 'modal' }}>
         <Stack.Screen name="Modal" component={ModalScreen} />

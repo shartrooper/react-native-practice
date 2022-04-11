@@ -16,12 +16,12 @@ export enum AuthActionTypes {
 
 type AuthAction = {
   type: AuthActionTypes;
-  token?: string | null;
+  token: string | null;
 };
 
 function authStore(prevState: AuthData, action: AuthAction): AuthData {
   const { RestoreToken, SignIn, SignOut } = AuthActionTypes;
-  const userToken = action.token as string | null;
+  const userToken = action.token;
 
   switch (action.type) {
     case RestoreToken:
