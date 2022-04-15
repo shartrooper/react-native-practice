@@ -48,7 +48,7 @@ function RootNavigator() {
   const setSharedScreens = () => {
     switch (payload.isLoading) {
       case true:
-        return (<Stack.Screen name="Loading" component={LoadingScreen} />)
+        return <Stack.Screen name="Loading" component={LoadingScreen} />;
       default:
         return !payload.userToken ? (
           <Stack.Screen
@@ -68,10 +68,9 @@ function RootNavigator() {
           />
         ) : (
           <Stack.Screen name="Tabs" component={BottomTabNavigator} options={{ headerShown: false }} />
-        )
+        );
     }
-  }
-
+  };
 
   return (
     <Stack.Navigator initialRouteName="Root">

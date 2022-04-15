@@ -30,7 +30,7 @@ const linking: LinkingOptions<RootStackParamList> = {
       },
       Modal: 'modal',
       NotFound: '*',
-      Loading: 'loading'
+      Loading: 'loading',
     },
   },
 };

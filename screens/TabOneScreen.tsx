@@ -7,7 +7,7 @@ import { AuthContext } from '../providers/AuthProvider';
 import { RootTabScreenProps } from '../types';
 
 export default function TabOneScreen({ navigation }: RootTabScreenProps<'TabOne'>) {
-  const {signOut} = useContext(AuthContext);
+  const { signOut } = useContext(AuthContext);
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Tab One</Text>

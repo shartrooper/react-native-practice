@@ -37,7 +37,7 @@ export default function AuthProvider({ children }: Props) {
 
       // This will switch to the App screen or Auth screen and this loading
       // screen will be unmounted and thrown away.
-      dispatch({ type: AuthActionTypes.RestoreToken, token: userToken ?? null});
+      dispatch({ type: AuthActionTypes.RestoreToken, token: userToken ?? null });
     };
 
     bootstrapAsync();
@@ -52,10 +52,10 @@ export default function AuthProvider({ children }: Props) {
         // In the example, we'll use a dummy token
         if (!data.username.length) return console.log('Not username submitted');
         const token = 'dummy-auth-token';
-        await SecureStore.setItemAsync('userToken', token)
+        await SecureStore.setItemAsync('userToken', token);
         dispatch({ type: AuthActionTypes.SignIn, token });
       },
-      signOut: async () =>{ 
+      signOut: async () => {
         await SecureStore.deleteItemAsync('userToken');
         dispatch({ type: AuthActionTypes.SignOut, token: null });
       },
