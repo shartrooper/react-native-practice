@@ -17,7 +17,7 @@ export enum QueryAll {
 }
 
 export const QueryParams = {
-  [QueryAll.AllBooks]: ['author', 'genre'],
+  [QueryAll.AllBooks]: ['$author: String', '$genre: String'],
   [QueryAll.AllAuthors]: null,
 };
 

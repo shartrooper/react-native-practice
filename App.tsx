@@ -1,6 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-
+import { ApolloProvider } from '@apollo/client';
+import { client } from './config/client';
 import useCachedResources from './hooks/useCachedResources';
 import useColorScheme from './hooks/useColorScheme';
 import Navigation from './navigation';
@@ -15,9 +16,11 @@ export default function App() {
   } else {
     return (
       <SafeAreaProvider>
-        <AuthProvider>
-          <Navigation colorScheme={colorScheme} />
-        </AuthProvider>
+        <ApolloProvider client={client}>
+          <AuthProvider>
+            <Navigation colorScheme={colorScheme} />
+          </AuthProvider>
+        </ApolloProvider>
         <StatusBar />
       </SafeAreaProvider>
     );

@@ -1,10 +1,7 @@
-import { ReactNode, createContext, useMemo, useEffect } from 'react';
+import { createContext, useMemo, useEffect } from 'react';
 import * as SecureStore from 'expo-secure-store';
 import authReducer, { AuthActionTypes, AuthData } from '../stores/AuthStore';
-
-type Props = {
-  children: ReactNode;
-};
+import { Props } from '../generaltypes';
 
 type UserInput = {
   username: string;
