@@ -18,7 +18,6 @@ const allQueryBuilder = () => {
 
   const allBooksQuery = gqlQueryBuilder(AllBooks, bookKeyQueries(), bookParams);
   const allAuthorsQuery = gqlQueryBuilder(AllAuthors, authorKeyQueries());
-
   return gql`
     ${queryArranger([allBooksQuery, allAuthorsQuery], bookParams)}
   `;

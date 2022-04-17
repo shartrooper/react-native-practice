@@ -18,3 +18,10 @@ export type Book = {
 export type Props = {
   children: ReactNode;
 };
+
+export type LibraryData = {
+  bookCount?: Number;
+  authorCount?: Number;
+  allBooks: Book[];
+  allAuthors: Author[];
+};
