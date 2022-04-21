@@ -26,9 +26,13 @@ export const gqlQueryBuilder = (queryName: string, fields: string[], args?: stri
     `;
 };
 
-export const queryArranger = (queries: string[], args?: string[]): string => {
+export const queryArranger = (
+  queries: string[],
+  args?: string[],
+  queryType: 'query' | 'mutation' = 'query',
+): string => {
   const queryArguments = args ? chainQueryArguments(args) : '';
-  return `query ${queryArguments}{
+  return `${queryType} ${queryArguments}{
         ${queries.join(' ')}
     }`;
 };
