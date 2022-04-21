@@ -6,7 +6,7 @@ import { ALL_QUERY } from '../constants/Booksqueries';
 import { LibraryData } from '../generaltypes';
 import { RootTabScreenProps } from '../types';
 
-export default function TabTwoScreen({navigation}: RootTabScreenProps<'TabTwo'>) {
+export default function TabTwoScreen({ navigation }: RootTabScreenProps<'TabTwo'>) {
   const [authorName, setName] = useState<string>('');
   const [queryByAuthor, setQueryByAuthor] = useState<string | null>(null);
   const { data, loading } = useQuery<LibraryData>(ALL_QUERY, {

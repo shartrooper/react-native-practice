@@ -13,6 +13,7 @@ import { ColorSchemeName, Pressable } from 'react-native';
 import Colors from '../constants/Colors';
 import useColorScheme from '../hooks/useColorScheme';
 import { AuthContext } from '../providers/AuthProvider';
+import ErrorModalScreen from '../screens/ErrorModalScreen';
 import LandingPage from '../screens/LandingPageScreen';
 import LoadingScreen from '../screens/LoadingScreen';
 import ModalScreen from '../screens/ModalScreen';
@@ -78,6 +79,7 @@ function RootNavigator() {
       <Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: 'Oops!' }} />
       <Stack.Group screenOptions={{ presentation: 'modal' }}>
         <Stack.Screen name="Modal" component={ModalScreen} />
+        <Stack.Screen name="ErrorModal" component={ErrorModalScreen} />
       </Stack.Group>
     </Stack.Navigator>
   );

@@ -6,6 +6,7 @@ import EditScreenInfo from '../components/EditScreenInfo';
 import { Text, View, Button, TextInput } from '../components/Themed';
 import { ADD_BOOK, ALL_QUERY } from '../constants/Booksqueries';
 import { AuthContext } from '../providers/AuthProvider';
+import { ErrorContext } from '../providers/ErrorMsgProvider';
 import { RootTabScreenProps } from '../types';
 
 export default function TabOneScreen({ navigation }: RootTabScreenProps<'TabOne'>) {
@@ -13,8 +14,9 @@ export default function TabOneScreen({ navigation }: RootTabScreenProps<'TabOne'
   const [published, setPublished] = useState('');
   const [author, setAuthor] = useState('');
   const [genre, setGenre] = useState('');
+  const errorModalContext = useContext(ErrorContext);
   const [createBookRecord] = useMutation(ADD_BOOK, {
-    onError: error => console.log(error.graphQLErrors[0].message),
+    onError: error => errorModalContext.displayErrorModal(error.graphQLErrors[0].message, navigation),
     refetchQueries: [{ query: ALL_QUERY }],
   });
   const { signOut } = useContext(AuthContext);

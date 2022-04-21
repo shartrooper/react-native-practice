@@ -19,6 +19,7 @@ export type RootStackParamList = {
   NotFound: undefined;
   Root: undefined;
   Loading: undefined;
+  ErrorModal: undefined;
 };
 
 export type RootStackScreenProps<Screen extends keyof RootStackParamList> = NativeStackScreenProps<
@@ -34,4 +35,9 @@ export type RootTabParamList = {
 export type RootTabScreenProps<Screen extends keyof RootTabParamList> = CompositeScreenProps<
   BottomTabScreenProps<RootTabParamList, Screen>,
   NativeStackScreenProps<RootStackParamList>
+>;
+
+export type StackScreenProps<Screen extends keyof RootStackParamList> = CompositeScreenProps<
+  BottomTabScreenProps<RootTabParamList>,
+  NativeStackScreenProps<RootStackParamList, Screen>
 >;

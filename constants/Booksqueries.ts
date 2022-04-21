@@ -31,7 +31,6 @@ const addBookQueryBuilder = () => {
   };
 
   const addBookQuery = gqlQueryBuilder(Mutations.AddBook, bookBodyFields(), addBookParams);
-  console.log(queryArranger([addBookQuery], addBookParams, 'mutation'));
   return gql`
     ${queryArranger([addBookQuery], addBookParams, 'mutation')}
   `;
