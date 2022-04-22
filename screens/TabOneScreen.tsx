@@ -17,7 +17,7 @@ export default function TabOneScreen({ navigation }: RootTabScreenProps<'TabOne'
   const errorModalContext = useContext(ErrorContext);
   const [createBookRecord] = useMutation(ADD_BOOK, {
     onError: error => errorModalContext.displayErrorModal(error.graphQLErrors[0].message, navigation),
-    refetchQueries: [{ query: ALL_QUERY }],
+    refetchQueries: [ALL_QUERY],
   });
   const { signOut } = useContext(AuthContext);
 
