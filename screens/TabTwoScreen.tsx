@@ -1,51 +1,58 @@
-import { useQuery } from '@apollo/client';
-import { useEffect, useMemo, useState } from 'react';
+import { ApolloError, useQuery } from '@apollo/client';
+import { useContext, useEffect, useMemo, useState } from 'react';
 import { StyleSheet } from 'react-native';
 import ShowDataList from '../components/ShowDataList';
 import { Button, Text, View } from '../components/Themed';
 import { ALL_QUERY } from '../constants/Booksqueries';
 import { LibraryData, Book, Author } from '../generaltypes';
+import { ErrorContext } from '../providers/ErrorMsgProvider';
 import { RootTabScreenProps } from '../types';
-
+import AuthorBirthYearForm from './forms/AuthorBirthYear';
 
 const AUTHORS_HEADER = ['name', 'born', 'bookCount'];
 const BOOKS_HEADER = ['title', 'author', 'published'];
 
 export default function TabTwoScreen({ navigation }: RootTabScreenProps<'TabTwo'>) {
   // const [authorName, setName] = useState<string>('');
-  const [header, setHeader] = useState<string[]>(AUTHORS_HEADER)
+  const errorModalContext = useContext(ErrorContext);
+  const [header, setHeader] = useState<string[]>(AUTHORS_HEADER);
   const [queryByAuthor, setQueryByAuthor] = useState<string | null>(null);
+  const sendError = (error: ApolloError) => {
+    const errorMsg = error.graphQLErrors.length ? error.graphQLErrors[0].message : error.message;
+    errorModalContext.displayErrorModal(errorMsg, navigation);
+  };
   const { data, loading } = useQuery<LibraryData>(ALL_QUERY, {
     variables: { author: queryByAuthor, genre: null },
+    onError: error => sendError(error),
     // pollInterval: 3000,
   });
 
   const getHeaderKeysData = <D extends Book | Author>(headers: string[], items: D[]) => {
-    if (!items.length) return []
+    if (!items.length) return [];
     const listData = items.map((item, index) => {
-      let newItem = { id: '' }
+      let newItem = { id: '' };
       for (const key in item) {
         if (headers.find(header => header === key)) {
           if (!item[key]) {
             continue;
           }
-          newItem = { ...newItem, [key]: item[key] }
+          newItem = { ...newItem, [key]: item[key] };
         }
       }
-      return { ...newItem, id: `author-${index}` }
-    })
-    return listData
-  }
+      return { ...newItem, id: `author-${index}` };
+    });
+    return listData;
+  };
 
   const headerData = useMemo(() => {
     if (!data) return [];
     switch (header) {
       case BOOKS_HEADER:
-        return getHeaderKeysData(header, data.allBooks)
+        return getHeaderKeysData(header, data.allBooks);
       default:
-        return getHeaderKeysData(header, data.allAuthors)
+        return getHeaderKeysData(header, data.allAuthors);
     }
-  }, [header, data])
+  }, [header, data]);
 
   /*useEffect(() => {
     const timer = setTimeout(() => {
@@ -56,20 +63,28 @@ export default function TabTwoScreen({ navigation }: RootTabScreenProps<'TabTwo'
     };
   }, [authorName]);*/
 
-  const SetupShowDataList = () => <ShowDataList headers={header} itemsData={headerData} />
+  const SetupShowDataList = () => <ShowDataList headers={header} itemsData={headerData} />;
+
+  const AuthorForm = () => {
+    const authorsArray = data
+      ? data.allAuthors.reduce((acc: string[], current) => {
+          return [...acc, current.name];
+        }, [])
+      : [];
+
+    return header === AUTHORS_HEADER ? <AuthorBirthYearForm authors={authorsArray} handleErrorMsg={sendError} /> : null;
+  };
 
   const ToggleDataButton = () => {
-
     const toggleData = () => {
       if (header === AUTHORS_HEADER) {
         setHeader(BOOKS_HEADER);
-        return
+        return;
       }
       setHeader(AUTHORS_HEADER);
-    }
-
-    return <Button title={header === AUTHORS_HEADER? 'authors': 'books'} onPress={toggleData} />
-  }
+    };
+    return <Button title={header === AUTHORS_HEADER ? 'authors' : 'books'} onPress={toggleData} />;
+  };
 
   if (loading) {
     return (
@@ -86,6 +101,7 @@ export default function TabTwoScreen({ navigation }: RootTabScreenProps<'TabTwo'
       <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
       <ToggleDataButton />
       <SetupShowDataList />
+      <AuthorForm />
     </View>
   );
 }

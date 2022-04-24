@@ -28,8 +28,10 @@ export const QueryFields = {
 
 export enum Mutations {
   AddBook = 'addBook',
+  EditAuthor = 'editAuthor',
 }
 
 export const BodyParams = {
   [Mutations.AddBook]: ['$title: String!', '$published: Int!', '$author: String!', '$genres: [String!]'],
+  [Mutations.EditAuthor]: ['$name: String!', '$setBornTo: Int!'],
 };

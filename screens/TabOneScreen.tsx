@@ -1,4 +1,4 @@
-import { useMutation } from '@apollo/client';
+import { ApolloError, useMutation } from '@apollo/client';
 import { useContext, useState } from 'react';
 import { NativeSyntheticEvent, NativeTouchEvent, StyleSheet } from 'react-native';
 
@@ -15,8 +15,14 @@ export default function TabOneScreen({ navigation }: RootTabScreenProps<'TabOne'
   const [author, setAuthor] = useState('');
   const [genre, setGenre] = useState('');
   const errorModalContext = useContext(ErrorContext);
+
+  const sendError = (error: ApolloError) => {
+    const errorMsg = error.graphQLErrors[0]?.message ? error.graphQLErrors[0].message : error.message;
+    errorModalContext.displayErrorModal(errorMsg, navigation);
+  };
+
   const [createBookRecord] = useMutation(ADD_BOOK, {
-    onError: error => errorModalContext.displayErrorModal(error.graphQLErrors[0].message, navigation),
+    onError: error => sendError(error),
     refetchQueries: [ALL_QUERY],
   });
   const { signOut } = useContext(AuthContext);
