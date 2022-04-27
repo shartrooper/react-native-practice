@@ -11,9 +11,14 @@ enum AuthorQueryFields {
   BookCount = 'bookCount',
 }
 
+enum tokenQueryFields {
+  Value='value'
+}
+
 export enum QueryAll {
   AllBooks = 'allBooks',
   AllAuthors = 'allAuthors',
+  Token ='token'
 }
 
 export const QueryParams = {
@@ -24,14 +29,17 @@ export const QueryParams = {
 export const QueryFields = {
   [QueryAll.AllAuthors]: { ...AuthorQueryFields },
   [QueryAll.AllBooks]: { ...BookQueryFields },
+  [QueryAll.Token]: {...tokenQueryFields}
 };
 
 export enum Mutations {
   AddBook = 'addBook',
   EditAuthor = 'editAuthor',
+  Login = 'login'
 }
 
 export const BodyParams = {
   [Mutations.AddBook]: ['$title: String!', '$published: Int!', '$author: String!', '$genres: [String!]'],
   [Mutations.EditAuthor]: ['$name: String!', '$setBornTo: Int!'],
+  [Mutations.Login]: ['$username: String!','$password: String!']
 };
