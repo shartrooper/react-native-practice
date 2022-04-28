@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken')
 const Book = require('./model/book')
 const Author = require('./model/author')
 const User = require('./model/user')
-const MONGODB_URI = "mongodb+srv://marko:Qy5caMdOAbz4hxdq@cluster0.aa7ai.mongodb.net/myLibraryDB?retryWrites=true&w=majority";
+const MONGODB_URI = `mongodb+srv://marko:${process.env.USER_PASS}@cluster0.aa7ai.mongodb.net/myLibraryDB?retryWrites=true&w=majority`;
 console.log('connecting to', MONGODB_URI);
 
 const JWT_SECRET = 'NEED_HERE_A_SECRET_KEY'
